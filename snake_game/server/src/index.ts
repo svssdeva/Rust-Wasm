@@ -2,7 +2,7 @@ import { Elysia } from 'elysia';
 import { fileURLToPath } from 'url'
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 const SRC_PATH = `${__dirname}\src`;
-const SCRIPT = Bun.file(SRC_PATH + "\\sum.wasm");
+const SCRIPT = Bun.file(SRC_PATH + "\\test.wasm");
 //console.log(await SCRIPT.text())
 
 const app = new Elysia();
