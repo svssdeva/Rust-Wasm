@@ -5,5 +5,10 @@ export default defineConfig({
     plugins: [
         wasm(),
         topLevelAwait()
-    ]
+    ],
+    optimizeDeps: {
+        exclude: [
+            "snake-game"
+        ]
+    }
 });

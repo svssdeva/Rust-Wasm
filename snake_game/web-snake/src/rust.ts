@@ -1,7 +1,7 @@
 async function init(): Promise<void> {
     let result = 0;
     try {
-        const response = await fetch("http://localhost:3000/sum");
+        const response = await fetch("/test.wasm");
         const buffer = await response.arrayBuffer();
         console.log(buffer);
         result = await add(buffer);
