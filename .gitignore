@@ -4,3 +4,4 @@
 **/target/debug
 **/**/bun.lockb
 **/**/dist
+**/target
