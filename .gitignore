@@ -2,3 +2,5 @@
 **/**/node_modules
 **/target/.debug
 **/target/debug
+**/**/bun.lockb
+**/**/dist
