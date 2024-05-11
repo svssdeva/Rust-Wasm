@@ -14,5 +14,7 @@
     "vite-plugin-wasm": "^3.3.0",
     "vite-plugin-top-level-await": "^1.4.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "snake-game": "file:../pkg"
+  }
 }
