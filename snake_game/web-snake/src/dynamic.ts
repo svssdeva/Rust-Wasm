@@ -2,7 +2,7 @@ import initSync, { Direction, World } from "snake-game";
 
 async function start() {
     const CELL_SIZE = 25;
-    const FRAME_RATE = 10; // Adjust the frame rate here
+    const FRAME_RATE = 12; // Adjust the frame rate here
     const WORLD_WIDTH = 8;
     const snakeSpawnIdx = Date.now() % (WORLD_WIDTH * WORLD_WIDTH);
     try {
@@ -24,7 +24,7 @@ async function start() {
                 drawWorld(canvas, ctx, worldWidth, CELL_SIZE);
 
                 if (isMoving) {
-                    world.update(1 / FRAME_RATE);
+                    world.update();
                 }
 
                 const snakeIndex = world.snake_head();
@@ -37,19 +37,19 @@ async function start() {
         document.addEventListener("keydown", (event) => {
             switch (event.code) {
                 case "ArrowUp":
-                    world.set_direction(Direction.Up);
+                    world.set_snake_direction(Direction.Up);
                     isMoving = true;
                     break;
                 case "ArrowDown":
-                    world.set_direction(Direction.Down);
+                    world.set_snake_direction(Direction.Down);
                     isMoving = true;
                     break;
                 case "ArrowLeft":
-                    world.set_direction(Direction.Left);
+                    world.set_snake_direction(Direction.Left);
                     isMoving = true;
                     break;
                 case "ArrowRight":
-                    world.set_direction(Direction.Right);
+                    world.set_snake_direction(Direction.Right);
                     isMoving = true;
                     break;
             }
