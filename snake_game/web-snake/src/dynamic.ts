@@ -1,23 +1,61 @@
-import initSync, { World } from "snake-game";
+import initSync, { Direction, World } from "snake-game";
 
 async function start() {
     const CELL_SIZE = 25;
+    const FRAME_RATE = 10; // Adjust the frame rate here
+    const WORLD_WIDTH = 8;
+    const snakeSpawnIdx = Date.now() % (WORLD_WIDTH * WORLD_WIDTH);
     try {
         const wasm = await initSync();
-        const world = new World();
+        const world = new World(WORLD_WIDTH, snakeSpawnIdx);
         const worldWidth = world.get_width();
-
         const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
         const ctx = <CanvasRenderingContext2D>canvas.getContext("2d");
-        if (canvas) {
-            setInterval(() => {
+
+        let lastRenderTime = 0;
+        let isMoving = false;
+
+        function gameLoop(currentTime: number) {
+            const deltaTime = (currentTime - lastRenderTime) / 1000;
+            if (deltaTime >= 1 / FRAME_RATE) {
+                lastRenderTime = currentTime;
+
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 drawWorld(canvas, ctx, worldWidth, CELL_SIZE);
-                world.update();
+
+                if (isMoving) {
+                    world.update(1 / FRAME_RATE);
+                }
+
                 const snakeIndex = world.snake_head();
                 drawSnake(ctx, worldWidth, CELL_SIZE, snakeIndex);
-            }, 100);
+            }
+
+            requestAnimationFrame(gameLoop);
         }
+
+        document.addEventListener("keydown", (event) => {
+            switch (event.code) {
+                case "ArrowUp":
+                    world.set_direction(Direction.Up);
+                    isMoving = true;
+                    break;
+                case "ArrowDown":
+                    world.set_direction(Direction.Down);
+                    isMoving = true;
+                    break;
+                case "ArrowLeft":
+                    world.set_direction(Direction.Left);
+                    isMoving = true;
+                    break;
+                case "ArrowRight":
+                    world.set_direction(Direction.Right);
+                    isMoving = true;
+                    break;
+            }
+        });
+
+        requestAnimationFrame(gameLoop);
     } catch (error) {
         console.error(error);
     }
@@ -66,8 +104,4 @@ async function drawSnake(ctx: CanvasRenderingContext2D, worldWidth: number, CELL
     } finally {
         //  console.log("Snake drawn");
     }
-}
-
-function interpolate(start: number, end: number, t: number): number {
-    return start + (end - start) * t;
 }
