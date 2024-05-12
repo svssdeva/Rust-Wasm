@@ -67,3 +67,7 @@ async function drawSnake(ctx: CanvasRenderingContext2D, worldWidth: number, CELL
         //  console.log("Snake drawn");
     }
 }
+
+function interpolate(start: number, end: number, t: number): number {
+    return start + (end - start) * t;
+}
