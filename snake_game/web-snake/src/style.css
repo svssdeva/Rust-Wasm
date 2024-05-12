@@ -94,3 +94,20 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.content-wrapper {
+  background-color: white;
+  border: #646cff solid 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.content-wrapper:hover {
+  box-shadow: #646cff 0 0 40px;
+  border: none;
+}
+
+#snake-canvas {
+  border: black solid 1px;
+}
