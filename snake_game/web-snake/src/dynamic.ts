@@ -6,11 +6,17 @@ async function start() {
         const wasm = await initSync();
         const world = new World();
         const worldWidth = world.get_width();
-        const snakeIndex = world.snake_head();
+
         const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
         const ctx = <CanvasRenderingContext2D>canvas.getContext("2d");
         if (canvas) {
-            await drawWorld(canvas, ctx, worldWidth, CELL_SIZE, snakeIndex);
+            setInterval(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawWorld(canvas, ctx, worldWidth, CELL_SIZE);
+                world.update();
+                const snakeIndex = world.snake_head();
+                drawSnake(ctx, worldWidth, CELL_SIZE, snakeIndex);
+            }, 100);
         }
     } catch (error) {
         console.error(error);
@@ -20,8 +26,7 @@ async function start() {
 start();
 
 
-async function drawWorld(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, worldWidth: number, CELL_SIZE: number, snakeIndex: number) {
-
+async function drawWorld(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, worldWidth: number, CELL_SIZE: number) {
     try {
         const calculated = (worldWidth * CELL_SIZE);
         canvas.width = calculated;
@@ -36,9 +41,10 @@ async function drawWorld(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2
             ctx?.lineTo(worldWidth * CELL_SIZE, y * CELL_SIZE);
         }
         ctx?.stroke();
-        await drawSnake(ctx, worldWidth, CELL_SIZE, snakeIndex);
     } catch (error) {
         console.error(error);
+    } finally {
+        //  console.log("World drawn");
     }
 }
 
@@ -56,6 +62,8 @@ async function drawSnake(ctx: CanvasRenderingContext2D, worldWidth: number, CELL
         );
         ctx.stroke();
     } catch (error) {
-
+        console.error(error);
+    } finally {
+        //  console.log("Snake drawn");
     }
 }

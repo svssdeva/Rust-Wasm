@@ -105,7 +105,6 @@ button:focus-visible {
 }
 .content-wrapper:hover {
   box-shadow: #646cff 0 0 40px;
-  border: none;
 }
 
 #snake-canvas {
