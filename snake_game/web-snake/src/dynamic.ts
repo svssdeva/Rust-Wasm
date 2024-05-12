@@ -1,9 +1,9 @@
-import initSync, { greet } from "snake-game";
+import initSync, { World } from "snake-game";
 
 async function start() {
     const wasm = await initSync();
-    greet("World");
-    console.log(window);
+    const world = new World();
+    console.log(world.get_width());
 }
 
 start();
