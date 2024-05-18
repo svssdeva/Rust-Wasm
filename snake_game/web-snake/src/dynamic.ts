@@ -2,7 +2,7 @@ import initSync, { Direction, World } from "snake-game";
 
 async function start() {
     const CELL_SIZE = 25;
-    const FRAME_RATE = 12; // Adjust the frame rate here
+    const FRAME_RATE = 30; // Adjust the frame rate here
     const WORLD_WIDTH = 8;
     const snakeSpawnIdx = Date.now() % (WORLD_WIDTH * WORLD_WIDTH);
     try {
