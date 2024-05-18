@@ -1,8 +1,8 @@
-import initSync, { Direction, World } from "snake-game";
+import initSync, { Direction, InitOutput, World } from "snake-game";
 
 async function start() {
     const CELL_SIZE = 25;
-    const FRAME_RATE = 30; // Adjust the frame rate here
+    const FRAME_RATE = 12; // Adjust the frame rate here
     const WORLD_WIDTH = 8;
     const snakeSpawnIdx = Date.now() % (WORLD_WIDTH * WORLD_WIDTH);
     try {
@@ -28,7 +28,7 @@ async function start() {
                 }
 
                 const snakeIndex = world.snake_head();
-                drawSnake(ctx, worldWidth, CELL_SIZE, snakeIndex);
+                drawSnake(ctx, worldWidth, CELL_SIZE, snakeIndex, wasm, world);
             }
 
             requestAnimationFrame(gameLoop);
@@ -87,17 +87,24 @@ async function drawWorld(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2
 }
 
 
-async function drawSnake(ctx: CanvasRenderingContext2D, worldWidth: number, CELL_SIZE: number, snakeIndex: number,) {
+async function drawSnake(ctx: CanvasRenderingContext2D, worldWidth: number, CELL_SIZE: number, snakeIndex: number, wasm: InitOutput, world: World) {
     try {
-        const col = snakeIndex % worldWidth;
-        const row = Math.floor(snakeIndex / worldWidth);
-        ctx.beginPath();
-        ctx.fillRect(
-            col * CELL_SIZE,
-            row * CELL_SIZE,
-            CELL_SIZE,
-            CELL_SIZE
-        );
+        const snakeCellPtr = world.snake_cells();
+        const snakeLength = world.snake_length();
+        const snakeCells = new Uint32Array(wasm.memory.buffer, snakeCellPtr, snakeLength);
+        snakeCells.forEach((cell, i) => {
+            const col = cell % worldWidth;
+            const row = Math.floor(cell / worldWidth);
+            ctx.fillStyle = i === 0 ? "#7878db" : "black";
+            ctx.beginPath();
+            ctx.fillRect(
+                col * CELL_SIZE,
+                row * CELL_SIZE,
+                CELL_SIZE,
+                CELL_SIZE
+            );
+        })
+
         ctx.stroke();
     } catch (error) {
         console.error(error);
