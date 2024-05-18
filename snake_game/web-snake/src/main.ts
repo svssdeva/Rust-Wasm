@@ -27,5 +27,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div class="card content-wrapper">
       <canvas id="snake-canvas"></canvas>
     </div>
+     <div class="score">Score: <span id="score">0</span></div>
+    <button class="reset-btn" id="reset-btn">Reset</button>
+    <div id="game-over" style="display: none;">
+    <h2>Game Over!</h2>
+</div>  
   </div>
+   <canvas id="confetti-canvas"></canvas>
 `
