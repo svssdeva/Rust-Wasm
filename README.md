@@ -23,7 +23,7 @@ To get started with the project, follow these steps:
 1. Clone the repository:
 
   ```shell
-  git clone https://github.com/your-username/snake-game.git
+  git clone https://github.com/svssdeva/Rust-Wasm.git
   cd snake-game
   ```
 
